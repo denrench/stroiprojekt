@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>СтройПроект - Ваш надёжный строитель</title>
+<style>
+  /* Reset и базовые стили */
+  * {
+    margin: 0; padding: 0; box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  body, html {
+    height: 100%;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+  }
+  body {
+    background: linear-gradient(135deg, #1f2a38, #3a5068);
+    color: #f0f0f0;
+    line-height: 1.6;
+  }
+
+  /* Фоновый анимированный градиент */
+  @keyframes bgShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  body {
+    background: linear-gradient(270deg, #1f2a38, #3a5068, #1f2a38, #3a5068);
+    background-size: 800% 800%;
+    animation: bgShift 30s ease infinite;
+  }
+
+  /* Контейнер */
+  .container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 0;
+  }
+
+  /* Хедер */
+  header {
+    background: rgba(0, 0, 0, 0.6);
+    padding: 25px 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    position: static; /* теперь статичный */
+    z-index: 100;
+  }
+  header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 900px; /* ограничиваем ширину меню */
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  header .logo {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #ffba08;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: default;
+    user-select: none;
+  }
+  nav {
+    display: flex;
+    gap: 35px;
+  }
+  nav a {
+    color: #eee;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    position: relative;
+    padding-bottom: 5px;
+    transition: color 0.3s ease;
+  }
+  nav a::after {
+    content: '';
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background: #ffba08;
+    transition: width 0.3s ease;
+  }
+  nav a:hover {
+    color: #ffba08;
+  }
+  nav a:hover::after {
+    width: 100%;
+  }
+
+  /* Главный баннер */
+  .hero {
+    min-height: 450px;
+    background: rgba(0,0,0,0.4);
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 80px;
+    padding: 0 20px;
+    animation: fadeInUp 1.2s ease forwards;
+    opacity: 0;
+  }
+  .hero.visible {
+    opacity: 1;
+  }
+  .hero h1 {
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+    color: #ffba08;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.7);
+  }
+  .hero p {
+    font-size: 1.3rem;
+    max-width: 650px;
+    color: #ddd;
+    text-shadow: 0 1px 5px rgba(0,0,0,0.6);
+  }
+
+  /* Анимация появления */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Раздел услуг */
+  .services {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+    gap: 40px;
+    margin-bottom: 80px;
+  }
+  .service-card {
+    background: rgba(255 255 255 / 0.1);
+    border-radius: 14px;
+    padding: 30px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: default;
+  }
+  .service-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 30px rgba(255, 186, 8, 0.6);
+  }
+  .service-card h3 {
+    font-size: 1.6rem;
+    margin-bottom: 15px;
+    color: #ffba08;
+  }
+  .service-card p {
+    color: #ddd;
+    font-size: 1rem;
+  }
+
+  /* Раздел проектов */
+  .projects {
+    margin-bottom: 80px;
+  }
+  .projects h2 {
+    text-align: center;
+    font-size: 2.8rem;
+    margin-bottom: 50px;
+    color: #ffba08;
+    text-shadow: 0 1px 5px rgba(0,0,0,0.7);
+  }
+  .project-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+  }
+  .project-card {
+    background: rgba(255 255 255 / 0.12);
+    border-radius: 16px;
+    box-shadow: 0 5px 18px rgba(0,0,0,0.25);
+    width: 320px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+  .project-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 15px 30px rgba(255,186,8,0.7);
+  }
+  .project-img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    filter: brightness(0.85);
+    transition: filter 0.3s ease;
+  }
+  .project-card:hover .project-img {
+    filter: brightness(1);
+  }
+  .project-info {
+    padding: 20px;
+    color: #f0f0f0;
+  }
+  .project-info h3 {
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+    color: #ffba08;
+  }
+  .project-info p {
+    font-size: 1rem;
+    line-height: 1.4;
+    color: #ddd;
+  }
+
+  /* Контакты */
+  .contact {
+    background: rgba(0,0,0,0.6);
+    border-radius: 16px;
+    padding: 40px 30px;
+    max-width: 700px;
+    margin: 0 auto 60px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+  }
+  .contact h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #ffba08;
+    font-size: 2.6rem;
+  }
+  .contact form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .contact input, .contact textarea {
+    padding: 14px 18px;
+    border-radius: 10px;
+    border: none;
+    font-size: 1rem;
+    resize: none;
+  }
+  .contact input:focus, .contact textarea:focus {
+    outline: 2px solid #ffba08;
+  }
+  .contact button {
+    background: #ffba08;
+    border: none;
+    padding: 16px;
+    font-size: 1.2rem;
+    border-radius: 25px;
+    font-weight: 700;
+    cursor: pointer;
+    color: #222;
+    transition: background 0.3s ease;
+  }
+  .contact button:hover {
+    background: #e0a800;
+  }
+
+  /* Футер */
+  footer {
+    text-align: center;
+    padding: 20px 10px;
+    background: rgba(0,0,0,0.7);
+    color: #aaa;
+    font-size: 0.9rem;
+  }
+
+  /* Адаптив */
+  @media(max-width: 600px) {
+    .hero h1 {
+      font-size: 2.4rem;
+    }
+    .projects h2 {
+      font-size: 2rem;
+    }
+    header .container {
+      max-width: 100%;
+      padding: 0 10px;
+      flex-direction: column;
+      gap: 15px;
+    }
+    nav {
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="logo">СтройПроект</div>
+    <nav>
+      <a href="#services">Услуги</a>
+      <a href="#projects">Проекты</a>
+      <a href="#contact">Контакты</a>
+    </nav>
+  </div>
+</header>
+
+<section class="container hero" id="hero">
+  <h1>Строим Вашу мечту надежно и качественно</h1>
+  <p>Компания «СтройПроект» — профессиональное строительство жилых и коммерческих объектов любой сложности с использованием современных технологий и экологичных материалов.</p>
+</section>
+
+<section class="container" id="services">
+  <h2 style="text-align:center; color:#ffba08; margin-bottom: 50px; font-size:2.8rem; text-shadow: 0 1px 5px rgba(0,0,0,0.7);">Наши услуги</h2>
+  <div class="services">
+    <article class="service-card" tabindex="0">
+      <h3>Строительство домов</h3>
+      <p>Полный цикл: от проектирования до сдачи «под ключ». Качественные материалы и современный подход.</p>
+    </article>
+    <article class="service-card" tabindex="0">
+      <h3>Реконструкция зданий</h3>
+      <p>Восстановление и обновление старых сооружений с сохранением архитектурных особенностей.</p>
+    </article>
+    <article class="service-card" tabindex="0">
+      <h3>Коммерческое строительство</h3>
+      <p>Возведение офисов, торговых центров, складов с соблюдением всех стандартов и требований.</p>
+    </article>
+    <article class="service-card" tabindex="0">
+      <h3>Ландшафтный дизайн</h3>
+      <p>Создаем уникальные проекты благоустройства территории вокруг вашего объекта.</p>
+    </article>
+  </div>
+</section>
+
+<section class="container projects" id="projects">
+  <h2>Наши проекты</h2>
+  <div class="project-list">
+    <article class="project-card" tabindex="0">
+      <img class="project-img" src="https://images.unsplash.com/photo-1501594907352-04cda38ebc29?auto=format&fit=crop&w=800&q=80" alt="Современный жилой комплекс" />
+      <div class="project-info">
+        <h3>Современный жилой комплекс</h3>
+        <p>Строительство жилого комплекса с парком, детскими площадками и подземным паркингом.</p>
+      </div>
+    </article>
+    <article class="project-card" tabindex="0">
+      <img class="project-img" src="https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=800&q=80" alt="Офисное здание" />
+      <div class="project-info">
+        <h3>Офисное здание</h3>
+        <p>Современный бизнес-центр с энергоэффективными технологиями и удобной инфраструктурой.</p>
+      </div>
+    </article>
+    <article class="project-card" tabindex="0">
+      <img class="project-img" src="https://images.unsplash.com/photo-1523731407965-2430cd12f5e4?auto=format&fit=crop&w=800&q=80" alt="Реконструкция исторического здания" />
+      <div class="project-info">
+        <h3>Реконструкция исторического здания</h3>
+        <p>Сохранение архитектурного наследия с внедрением современных инженерных решений.</p>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section class="container contact" id="contact">
+  <h2>Связаться с нами</h2>
+  <form onsubmit="handleSubmit(event)" novalidate>
+    <input type="text" name="name" placeholder="Ваше имя" required minlength="2" />
+    <input type="email" name="email" placeholder="Email" required />
+    <textarea name="message" placeholder="Ваше сообщение" rows="5" required minlength="10"></textarea>
+    <button type="submit">Отправить</button>
+  </form>
+</section>
+
+<footer>
+  &copy; 2025 СтройПроект. Все права защищены.
+</footer>
+
+<script>
+  // Анимация появления hero после загрузки
+  window.addEventListener('DOMContentLoaded', () => {
+    document.querySelector('.hero').classList.add('visible');
+  });
+
+  // Обработка формы
+  function handleSubmit(e) {
+    e.preventDefault();
+    const form = e.target;
+    if(!form.checkValidity()) {
+      alert('Пожалуйста, заполните форму корректно.');
+      return;
+    }
+    alert('Спасибо! Ваше сообщение отправлено.');
+    form.reset();
+  }
+</script>
+
+</body>
+</html>
